@@ -21,6 +21,7 @@ img {
 .container {
   width: 100%;
   height: 30rem;
+  padding: 2rem;
 }
 
 .my-slider-main-container {
@@ -28,7 +29,10 @@ img {
   height: 100%;
   overflow: hidden;
   position: relative;
+  --slider-width: 100%;
+  --slides: 3;
 }
+
 
 .my-slider-arrow-right,
 .my-slider-arrow-left {
@@ -39,6 +43,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 1;
 }
 
 .my-slider-arrow-left {
@@ -55,12 +60,29 @@ img {
   background-color: red;
 }
 
+/* .arrow-inactive {
+  cursor: default;
+  background-color: gray;
+} */
+
 .my-slider-image-container {
-  width: 100%;
+  /* width: 100%; */
+  /* width: max-content; */
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: calc(var(--slider-width) * var(--slides));
+}
+
+.image-container {
+  height: 100%;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.active-slide {
+  order: -1;
 }
 
 .my-slider-dots-container {
@@ -75,8 +97,8 @@ img {
 }
 
 .dot {
-  height: 2rem;
-  width: 2rem;
+  height: 1rem;
+  width: 1rem;
   border-radius: 50%;
   border: 1px solid greenyellow;
 }

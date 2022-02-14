@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,8 +9,9 @@
   <script src="script.js" defer></script>
   <title>My Slider</title>
 </head>
+
 <body>
-  
+
   <div class="wrapper">
 
     <div class="container">
@@ -24,9 +26,15 @@
         </div>
 
         <div class="my-slider-image-container">
-          <img src="img/yennifer.jpg" alt="slider-img" data-img="1">
-          <img src="img/geralt.jpg" alt="slider-img" data-img="1">
-          <img src="img/triss.jpg" alt="slider-img" data-img="1">
+          <div class="image-container">
+            <img src="img/yennifer.jpg" alt="slider-img" data-img="1">
+          </div>
+          <div class="image-container active-slide">
+            <img src="img/geralt.jpg" alt="slider-img" data-img="2">
+          </div>
+          <div class="image-container">
+            <img src="img/triss.jpg" alt="slider-img" data-img="3">
+          </div>
         </div>
 
         <div class="my-slider-dots-container">
@@ -34,12 +42,13 @@
           <div class="dot" data-dot="2"></div>
           <div class="dot" data-dot="3"></div>
         </div>
-        
+
       </div>
-      
+
     </div>
-    
+
   </div>
-  
+
 </body>
+
 </html>
