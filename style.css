@@ -29,8 +29,8 @@ img {
   height: 100%;
   overflow: hidden;
   position: relative;
-  --slider-width: 100%;
-  --slides: 3;
+  /* --slider-width: 100; */
+  --slides: 1;
 }
 
 
@@ -72,7 +72,7 @@ img {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: calc(var(--slider-width) * var(--slides));
+  width: 100%;
 }
 
 .image-container {
