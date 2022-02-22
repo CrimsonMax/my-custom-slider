@@ -30,8 +30,6 @@ img {
   /* overflow: hidden; */
   position: relative;
   /* --slider-width: 100; */
-  --slides: 1;
-
   border: 2px dashed red;
   /* z-index: 99999; */
 }
@@ -77,6 +75,7 @@ img {
   align-items: center;
   width: 100%;
   transition: all .4s ease;
+  margin-left: -100%;
 }
 
 .image-container {
@@ -115,4 +114,8 @@ img {
 .dot:hover {
   cursor: pointer;
   background-color: greenyellow;
+}
+
+.active-dot {
+  background-color: green;
 }
