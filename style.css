@@ -32,6 +32,7 @@ img {
   /* --slider-width: 100; */
   border: 2px dashed red;
   /* z-index: 99999; */
+  position: relative;
 }
 
 
@@ -58,6 +59,11 @@ img {
 .my-slider-arrow-right:hover,
 .my-slider-arrow-left:hover {
   cursor: pointer;
+  /* background-color: red; */
+}
+
+.my-slider-arrow-right:active,
+.my-slider-arrow-left:active {
   background-color: red;
 }
 
@@ -69,20 +75,22 @@ img {
 .my-slider-image-container {
   /* width: 100%; */
   /* width: max-content; */
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  transition: all .4s ease;
-  margin-left: -100%;
+  /* justify-content: center;
+  align-items: center; */
+  /* width: 100%; */
+  transition: all .4s ease-in-out;
+  /* margin-left: -100%; */
 }
 
 .image-container {
   height: 100%;
   width: 100%;
   transition: all 0.5s ease;
-
   z-index: -1;
 }
 
