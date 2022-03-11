@@ -1,7 +1,7 @@
-// TODO: Drag, Endless, Action Dot
+// TODO: Drag, Endless
 
 // Setup prime elements
-const primeContainer = document.querySelector('.my-slider-main-container') // -- ??
+const primeContainer = document.querySelector('.my-slider-main-container')
 const sliderContainer = document.querySelector('.my-slider-image-container')
 const mySlides = document.querySelectorAll('.image-container')
 const dotsContainer = document.querySelector('.my-slider-dots-container')
@@ -22,20 +22,35 @@ let posX2;
 let initialPosition;
 let finalPosition;
 
+
 // Generate dots
 mySlides.forEach(elem => {
   let dot = document.createElement('div')
   dot.classList.add('dot')
   dot.dataset.dot = elem.firstElementChild.dataset.img
-  // if (elem.classList.contains('active-slide')) {
-  //   dot.classList.add('active-dot')
-  // }
+  if (elem.classList.contains('active-slide')) {
+    dot.classList.add('active-dot')
+  }
   dotsContainer.appendChild(dot)
 })
 
-// function addActiveDot(nodes) {
-  
-// }
+function addActive() {
+  mySlides.forEach((elem, index) => {
+    `${index * (-containerWidth)}px` === sliderContainer.style.left
+      ?
+      elem.classList.add('active-slide')
+      :
+      elem.classList.remove('active-slide')
+  })
+
+  dotsContainer.querySelectorAll('.dot').forEach(elem => {
+    elem.dataset.dot === document.querySelector('.active-slide').firstElementChild.dataset.img
+      ?
+      elem.classList.add('active-dot')
+      :
+      elem.classList.remove('active-dot')
+  })
+}
 
 // Set clone slides
 // sliderContainer.appendChild(cloneFirstSlide)
@@ -64,27 +79,24 @@ dotsContainer.addEventListener('click', activateSlide)
 // sliderContainer.addEventListener("touchend", dragEnd);
 
 function leftMove() {
-  console.log('Left')
-  // console.log(sliderContainer.style.left / containerWidth)
   if (sliderContainer.offsetLeft % containerWidth === 0) {
     sliderContainer.style.left = `${sliderContainer.offsetLeft - containerWidth}px`
+    addActive()
   }
-  console.log(+sliderContainer.style.left)
-  console.log(sliderContainer.offsetLeft)
-  console.log(containerWidth)
 }
 
 function rightMove() {
-  console.log('Right')
   if (sliderContainer.offsetLeft % containerWidth === 0) {
     sliderContainer.style.left = `${sliderContainer.offsetLeft + containerWidth}px`
+    addActive()
   }
-  console.log(sliderContainer.style.left)
-  console.log(sliderContainer.offsetLeft)
 }
 
 function activateSlide(e) {
   if (e.target.classList.value !== 'dot') return
+  e.target.parentElement.querySelectorAll('.dot').forEach(elem => {
+    elem.classList.remove('active-dot')
+  })
 
   mySlides.forEach((elem, index) => {
     elem.firstElementChild.dataset.img === e.target.dataset.dot
@@ -94,11 +106,8 @@ function activateSlide(e) {
       elem.classList.remove('active-slide')
 
     if (elem.classList.contains('active-slide')) {
-      console.log(elem.classList[0])
-      // console.log(elem.getClientRects())
-      console.log(index)
-      // console.log(Math.floor(sliderLength / 2) <= index ? 'right' : 'left')
       sliderContainer.style.left = `${index * (-containerWidth)}px`
+      e.target.classList.add('active-dot')
     }
   })
 }
