@@ -1,7 +1,7 @@
 // TODO: Drag, Endless
 
 // Setup prime elements
-const primeContainer = document.querySelector('.my-slider-main-container')
+const mainContainer = document.querySelector('.my-slider-main-container')
 const sliderContainer = document.querySelector('.my-slider-image-container')
 const mySlides = document.querySelectorAll('.image-container')
 const dotsContainer = document.querySelector('.my-slider-dots-container')
@@ -9,18 +9,69 @@ const dotsContainer = document.querySelector('.my-slider-dots-container')
 const sliderLength = mySlides.length
 const slideWidth = mySlides[0].offsetWidth
 
-const containerWidth = primeContainer.offsetWidth
+const containerWidth = mainContainer.offsetWidth
 
-const firstSlide = mySlides[0]
-const lastSlide = mySlides[sliderLength - 1]
+// const firstSlide = mySlides[0]
+// const lastSlide = mySlides[sliderLength - 1]
 
-const cloneFirstSlide = firstSlide.cloneNode(true)
-const cloneLastSlide = lastSlide.cloneNode(true)
+// const cloneFirstSlide = firstSlide.cloneNode(true)
+// const cloneLastSlide = lastSlide.cloneNode(true)
 
-let posX1;
-let posX2;
-let initialPosition;
-let finalPosition;
+// Drag interface
+let startXposition;
+let nextXposition;
+let initialSliderPosition;
+let finalSliderPosition;
+
+sliderContainer.addEventListener("mousedown", dragStart);
+
+sliderContainer.addEventListener("touchstart", dragStart);
+sliderContainer.addEventListener("touchmove", dragMove);
+sliderContainer.addEventListener("touchend", dragEnd);
+
+function dragStart(e) {
+  
+  e.preventDefault()
+  initialSliderPosition = sliderContainer.offsetLeft
+
+  if (e.type === 'touchstart') {
+    startXposition = e.touches[0].clientX
+  } else {
+    startXposition = e.clientX
+
+    document.onmouseup = dragEnd
+    document.onmousemove = dragMove
+  }
+}
+
+function dragMove(e) {
+  if (e.type === 'touchmove') {
+    nextXposition = startXposition - e.touches[0].clientX
+    startXposition = e.touches[0].clientX
+  } else {
+    nextXposition = startXposition - e.clientX
+    startXposition = e.clientX
+  }
+
+  sliderContainer.style.left = `${sliderContainer.offsetLeft - nextXposition}px`
+
+  console.log(sliderContainer.style.left)
+}
+
+function dragEnd() {
+  finalSliderPosition = sliderContainer.offsetLeft
+
+  if (finalSliderPosition - initialSliderPosition < containerWidth * -.5) {
+    leftMove()
+  } else if (finalSliderPosition - initialSliderPosition > containerWidth * .5) {
+    rightMove()
+  } else {
+    sliderContainer.style.left = `${initialSliderPosition}px`
+  }
+
+  document.onmouseup = null
+  document.onmousemove = null
+}
 
 
 // Generate dots
@@ -71,12 +122,6 @@ sliderContainer.style.setProperty('width', `${properWidth}px`)
 leftButton.addEventListener('click', leftMove)
 rightButton.addEventListener('click', rightMove)
 dotsContainer.addEventListener('click', activateSlide)
-
-// Drag slides
-// sliderContainer.addEventListener("mousedown", dragStart);
-// sliderContainer.addEventListener("touchstart", dragStart);
-// sliderContainer.addEventListener("touchmove", dragMove);
-// sliderContainer.addEventListener("touchend", dragEnd);
 
 function leftMove() {
   if (sliderContainer.offsetLeft % containerWidth === 0) {
