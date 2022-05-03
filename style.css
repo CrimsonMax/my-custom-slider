@@ -30,7 +30,7 @@ img {
   /* overflow: hidden; */
   position: relative;
   /* --slider-width: 100; */
-  border: 2px dashed red;
+  outline: 2px dashed red;
   /* z-index: 99999; */
   position: relative;
 }
