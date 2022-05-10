@@ -33,6 +33,7 @@ img {
   outline: 2px dashed red;
   /* z-index: 99999; */
   position: relative;
+  overflow: hidden;
 }
 
 
@@ -83,8 +84,15 @@ img {
   /* justify-content: center;
   align-items: center; */
   /* width: 100%; */
-  transition: all .4s ease-in-out;
   /* margin-left: -100%; */
+}
+
+.my-slider-image-container:active {
+  cursor: grabbing;
+}
+
+.transition {
+  transition: all .4s ease-in-out;
 }
 
 .image-container {
