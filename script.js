@@ -1,95 +1,113 @@
-// TODO: Refactoring
-
 // Setup prime elements
-const mainContainer = document.querySelector('.my-slider-main-container')
-let sliderContainer = document.querySelector('.my-slider-image-container')
-const mySlides = document.querySelectorAll('.image-container')
-const dotsContainer = document.querySelector('.my-slider-dots-container')
+const mainContainer = document.querySelector('.max-slider')
+let sliderContainer = document.querySelector('.max-slider__images-container')
+let myImages = document.querySelectorAll('.max-slider__image')
+const dotsContainer = document.querySelector('.max-slider__dots-container')
+const leftButton = document.querySelector('.max-slider__arrow-left')
+const rightButton = document.querySelector('.max-slider__arrow-right')
+let sliderLength = myImages.length
+let containerWidth
 
-const sliderLength = mySlides.length
-const slideWidth = mySlides[0].offsetWidth
-
-const containerWidth = mainContainer.offsetWidth
-
-const firstSlide = mySlides[0]
-const lastSlide = mySlides[sliderLength - 1]
-
-const cloneFirstSlide = firstSlide.cloneNode(true)
-const cloneLastSlide = lastSlide.cloneNode(true)
+// Removing certain elements from interface
+// dotsContainer.style.display = 'none'
+// leftButton.style.display = 'none'
+// rightButton.style.display = 'none'
 
 // Generate dots
-mySlides.forEach(elem => {
+myImages.forEach(elem => {
   let dot = document.createElement('div')
-  dot.classList.add('dot')
+  dot.classList.add('max-slider__dot')
   dot.dataset.dot = elem.firstElementChild.dataset.img
-  if (elem.classList.contains('active-slide')) {
-    dot.classList.add('active-dot')
+  if (elem.classList.contains('max-slider__image--active')) {
+    dot.classList.add('max-slider__dot--active')
   }
   dotsContainer.appendChild(dot)
 })
 
-function addActive() {
-  mySlides.forEach((elem, index) => {
-    `${(index + 1) * (-containerWidth)}px` === sliderContainer.style.left
-      ?
-      elem.classList.add('active-slide')
-      :
-      elem.classList.remove('active-slide')
+// Generate Slider
+const sliderAppearing = () => {
+  containerWidth = mainContainer.offsetWidth
+  let checkIndex
+  let myNewImages = document.querySelectorAll('.max-slider__image')
+
+  myNewImages.forEach((elem) => elem.style.setProperty('width', `${containerWidth}px`))
+  document.querySelectorAll('.max-slider__dot').forEach((elem, index) => {
+    if (elem.classList.contains('max-slider__dot--active')) {
+      checkIndex = index
+    }
   })
 
-  dotsContainer.querySelectorAll('.dot').forEach(elem => {
-    elem.dataset.dot === document.querySelector('.active-slide').firstElementChild.dataset.img
+  properWidth = containerWidth * (sliderLength + 2)
+  sliderContainer.classList.remove('max-slider__images-container--transition')
+  sliderContainer.style.setProperty('width', `${properWidth}px`)
+  sliderContainer.style.setProperty('left', `${-containerWidth * (checkIndex + 1)}px`)
+
+}
+sliderAppearing()
+
+// Watch resizing
+window.addEventListener('resize', sliderAppearing)
+
+// Creating clones for infinity
+const firstSlide = myImages[0]
+const lastSlide = myImages[sliderLength - 1]
+const firstSlideClone = firstSlide.cloneNode(true)
+firstSlideClone.classList.add('max-slider__image--active')
+const lastSlideClone = lastSlide.cloneNode(true)
+sliderContainer.appendChild(firstSlideClone)
+sliderContainer.insertBefore(lastSlideClone, firstSlide)
+
+// Adding active classes
+function addActive() {
+  myImages.forEach((elem, index) => {
+    sliderContainer.style.left === `${-containerWidth * (index + 1)}px`
       ?
-      elem.classList.add('active-dot')
+      elem.classList.add('max-slider__image--active')
       :
-      elem.classList.remove('active-dot')
+      elem.classList.remove('max-slider__image--active')
+  })
+
+  dotsContainer.querySelectorAll('.max-slider__dot').forEach(elem => {
+    elem.dataset.dot === document.querySelector('.max-slider__image--active').firstElementChild.dataset.img
+      ?
+      elem.classList.add('max-slider__dot--active')
+      :
+      elem.classList.remove('max-slider__dot--active')
   })
 }
 
-// Set clone slides
-sliderContainer.appendChild(cloneFirstSlide)
-sliderContainer.insertBefore(cloneLastSlide, firstSlide)
-
-// Setup buttons
-const leftButton = document.querySelector('.my-slider-arrow-left')
-const rightButton = document.querySelector('.my-slider-arrow-right')
-
-// Setup full slider width
-let properWidth = containerWidth * (sliderLength + 2)
-sliderContainer.style.setProperty('width', `${properWidth}px`)
-sliderContainer.style.setProperty('left', `${-containerWidth}px`)
-
 // Set actions
-leftButton.addEventListener('click', leftMove)
-rightButton.addEventListener('click', rightMove)
+leftButton.addEventListener('click', rightMove)
+rightButton.addEventListener('click', leftMove)
 dotsContainer.addEventListener('click', activateSlide)
-sliderContainer.addEventListener('transitionend', checkSlideEnd)
+sliderContainer.addEventListener('transitionend', checkSliderEnd)
 
-// Check if slider ends
-function checkSlideEnd() {
+// Check if slider ends for infinity
+function checkSliderEnd() {
   if (sliderContainer.offsetLeft === 0) {
-    sliderContainer.classList.remove('transition')
-    sliderContainer.style.left = `${sliderLength * -containerWidth}px`
+    sliderContainer.classList.remove('max-slider__images-container--transition')
+    sliderContainer.style.left = `${-containerWidth * sliderLength}px`
     addActive()
   }
 
   if (sliderContainer.offsetLeft === -containerWidth * (sliderLength + 1)) {
-    sliderContainer.classList.remove('transition')
+    sliderContainer.classList.remove('max-slider__images-container--transition')
     sliderContainer.style.left = `${-containerWidth}px`
     addActive()
   }
 }
 
+// Arrows actions
 function leftMove() {
-  sliderContainer.classList.add('transition')
+  sliderContainer.classList.add('max-slider__images-container--transition')
+
   if (sliderContainer.offsetLeft % containerWidth === 0) {
     sliderContainer.style.left = `${sliderContainer.offsetLeft - containerWidth}px`
     addActive()
   }
 }
-
 function rightMove() {
-  sliderContainer.classList.add('transition')
+  sliderContainer.classList.add('max-slider__images-container--transition')
 
   if (sliderContainer.offsetLeft % containerWidth === 0) {
     sliderContainer.style.left = `${sliderContainer.offsetLeft + containerWidth}px`
@@ -97,25 +115,27 @@ function rightMove() {
   }
 }
 
+
+// Dots actions
 function activateSlide(e) {
-  if (e.target.classList.value !== 'dot') return
+  if (e.target.classList.value !== 'max-slider__dot') return
 
-  sliderContainer.classList.add('transition')
+  sliderContainer.classList.add('max-slider__images-container--transition')
 
-  e.target.parentElement.querySelectorAll('.dot').forEach(elem => {
-    elem.classList.remove('active-dot')
+  e.target.parentElement.querySelectorAll('.max-slider__dot').forEach(elem => {
+    elem.classList.remove('max-slider__dot--active')
   })
 
-  mySlides.forEach((elem, index) => {
+  myImages.forEach((elem, index) => {
     elem.firstElementChild.dataset.img === e.target.dataset.dot
       ?
-      elem.classList.add('active-slide')
+      elem.classList.add('max-slider__image--active')
       :
-      elem.classList.remove('active-slide')
+      elem.classList.remove('max-slider__image--active')
 
-    if (elem.classList.contains('active-slide')) {
-      sliderContainer.style.left = `${(index + 1) * (-containerWidth)}px`
-      e.target.classList.add('active-dot')
+    if (elem.classList.contains('max-slider__image--active')) {
+      sliderContainer.style.left = `${-containerWidth * (index + 1)}px`
+      e.target.classList.add('max-slider__dot--active')
     }
   })
 }
@@ -125,35 +145,31 @@ let startXposition;
 let nextXposition;
 let initialSliderPosition;
 let finalSliderPosition;
-var position = 0
+let position = 0
 
+// Drag events
 sliderContainer.addEventListener("mousedown", dragStart);
-
 sliderContainer.addEventListener("touchstart", dragStart);
 sliderContainer.addEventListener("touchmove", dragMove);
 sliderContainer.addEventListener("touchend", dragEnd);
 
+// Drag actions
 function dragStart(e) {
-
   e.preventDefault()
-  sliderContainer.classList.remove('transition')
+  
+  sliderContainer.classList.remove('max-slider__images-container--transition')
 
   initialSliderPosition = sliderContainer.offsetLeft
-  console.log(initialSliderPosition)
 
   if (e.type === 'touchstart') {
     startXposition = e.touches[0].clientX
-    console.log(startXposition)
   } else {
     startXposition = e.clientX
-    console.log(startXposition)
-
 
     document.onmouseup = dragEnd
     document.onmousemove = dragMove
   }
 }
-
 function dragMove(e) {
   if (e.type === 'touchmove') {
     nextXposition = startXposition - e.touches[0].clientX
@@ -164,20 +180,18 @@ function dragMove(e) {
   }
 
   sliderContainer.style.left = `${sliderContainer.offsetLeft - nextXposition}px`
-
-  console.log(sliderContainer.style.left)
 }
-
 function dragEnd() {
   finalSliderPosition = sliderContainer.offsetLeft
-  sliderContainer.classList.add('transition')
+  
+  sliderContainer.classList.add('max-slider__images-container--transition')
 
   position = finalSliderPosition - initialSliderPosition
 
-  if (position < containerWidth * -.5) {
+  if (position < containerWidth * -.2) {
     sliderContainer.style.left = `${(sliderContainer.offsetLeft - position) - containerWidth}px`
     addActive()
-  } else if (position > containerWidth * .5) {
+  } else if (position > containerWidth * .2) {
     sliderContainer.style.left = `${(sliderContainer.offsetLeft - position) + containerWidth}px`
     addActive()
   } else {
@@ -187,3 +201,9 @@ function dragEnd() {
   document.onmouseup = null
   document.onmousemove = null
 }
+
+// Autoplay function
+function autoPlay(direction) {
+  setInterval(direction, 3000)
+}
+// autoPlay(leftMove)
