@@ -1,5 +1,5 @@
 // Setup prime elements
-const mainContainer = document.querySelector('.max-slider')
+const mainContainer = document.querySelector('#max-slider-1')
 let sliderContainer = document.querySelector('.max-slider__images-container')
 let myImages = document.querySelectorAll('.max-slider__image')
 const dotsContainer = document.querySelector('.max-slider__dots-container')
@@ -17,7 +17,7 @@ let containerWidth
 myImages.forEach(elem => {
   let dot = document.createElement('div')
   dot.classList.add('max-slider__dot')
-  dot.dataset.dot = elem.firstElementChild.dataset.img
+  dot.dataset.dot = elem.firstElementChild.dataset.item
   if (elem.classList.contains('max-slider__image--active')) {
     dot.classList.add('max-slider__dot--active')
   }
@@ -52,7 +52,6 @@ window.addEventListener('resize', sliderAppearing)
 const firstSlide = myImages[0]
 const lastSlide = myImages[sliderLength - 1]
 const firstSlideClone = firstSlide.cloneNode(true)
-firstSlideClone.classList.add('max-slider__image--active')
 const lastSlideClone = lastSlide.cloneNode(true)
 sliderContainer.appendChild(firstSlideClone)
 sliderContainer.insertBefore(lastSlideClone, firstSlide)
@@ -68,7 +67,7 @@ function addActive() {
   })
 
   dotsContainer.querySelectorAll('.max-slider__dot').forEach(elem => {
-    elem.dataset.dot === document.querySelector('.max-slider__image--active').firstElementChild.dataset.img
+    elem.dataset.dot === document.querySelector('.max-slider__image--active').firstElementChild.dataset.item
       ?
       elem.classList.add('max-slider__dot--active')
       :
@@ -127,7 +126,7 @@ function activateSlide(e) {
   })
 
   myImages.forEach((elem, index) => {
-    elem.firstElementChild.dataset.img === e.target.dataset.dot
+    elem.firstElementChild.dataset.item === e.target.dataset.dot
       ?
       elem.classList.add('max-slider__image--active')
       :
