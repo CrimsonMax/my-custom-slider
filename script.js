@@ -17,7 +17,7 @@ let containerWidth
 myImages.forEach(elem => {
   let dot = document.createElement('div')
   dot.classList.add('max-slider__dot')
-  dot.dataset.dot = elem.firstElementChild.dataset.item
+  dot.dataset.dot = elem.dataset.item
   if (elem.classList.contains('max-slider__image--active')) {
     dot.classList.add('max-slider__dot--active')
   }
@@ -53,7 +53,9 @@ const firstSlide = myImages[0]
 const lastSlide = myImages[sliderLength - 1]
 const firstSlideClone = firstSlide.cloneNode(true)
 const lastSlideClone = lastSlide.cloneNode(true)
-sliderContainer.appendChild(firstSlideClone)
+firstSlideClone.classList.add('clone')
+lastSlideClone.classList.add('clone')
+sliderContainer.appendChild(firstSlideClone).classList.add()
 sliderContainer.insertBefore(lastSlideClone, firstSlide)
 
 // Adding active classes
@@ -67,7 +69,7 @@ function addActive() {
   })
 
   dotsContainer.querySelectorAll('.max-slider__dot').forEach(elem => {
-    elem.dataset.dot === document.querySelector('.max-slider__image--active').firstElementChild.dataset.item
+    elem.dataset.dot === document.querySelector('.max-slider__image--active').dataset.item
       ?
       elem.classList.add('max-slider__dot--active')
       :
@@ -126,7 +128,7 @@ function activateSlide(e) {
   })
 
   myImages.forEach((elem, index) => {
-    elem.firstElementChild.dataset.item === e.target.dataset.dot
+    elem.dataset.item === e.target.dataset.dot
       ?
       elem.classList.add('max-slider__image--active')
       :

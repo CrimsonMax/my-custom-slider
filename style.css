@@ -36,6 +36,29 @@ img {
   overflow: hidden;
 }
 
+.max-slider__images-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+}
+
+.max-slider__images-container:active {
+  cursor: grabbing;
+}
+
+.max-slider__images-container--transition {
+  transition: all 0.25s ease 0s;
+}
+
+.max-slider__image {
+  height: 100%;
+  z-index: -1;
+}
+
+/* ARROWS STYLES */
+
 .max-slider__arrow-right,
 .max-slider__arrow-left {
   position: absolute;
@@ -62,26 +85,7 @@ img {
   background-color: red;
 }
 
-.max-slider__images-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  display: flex;
-}
-
-.max-slider__images-container:active {
-  cursor: grabbing;
-}
-
-.max-slider__images-container--transition {
-  transition: all 0.25s ease 0s;
-}
-
-.max-slider__image {
-  height: 100%;
-  z-index: -1;
-}
+/* DOTS STYLES */
 
 .max-slider__dots-container {
   width: 100%;
