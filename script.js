@@ -2,14 +2,11 @@
 const mainContainer = document.querySelector('#max-slider-1')
 let sliderContainer = document.querySelector('.max-slider__images-container')
 let myImages = document.querySelectorAll('.max-slider__image')
-
 const dotsContainer = document.querySelector('.max-slider__dots-container')
 const leftButton = document.querySelector('.max-slider__arrow-left')
 const rightButton = document.querySelector('.max-slider__arrow-right')
 let sliderLength = myImages.length
 let containerWidth
-
-
 
 // Removing certain elements from interface
 // dotsContainer.style.display = 'none'
@@ -64,7 +61,6 @@ const lastSlideClone = lastSlide.cloneNode(true)
 const preLastSlideClone = beforelastSlide.cloneNode(true)
 
 firstSlideClone.classList.add('clone')
-// firstSlideClone.classList.remove('max-slider__image--active')
 secondSlideClone.classList.add('clone')
 lastSlideClone.classList.add('clone')
 preLastSlideClone.classList.add('clone')
@@ -79,7 +75,6 @@ console.log(clones)
 
 // Adding active classes
 function addActive() {
-  // myImages = document.querySelectorAll('.max-slider__image')
   
   myImages.forEach((elem, index) => {
     sliderContainer.style.left === `${-containerWidth * (index + 2)}px`
@@ -88,14 +83,6 @@ function addActive() {
       :
       elem.classList.remove('max-slider__image--active')
   })
-  // myImages.forEach(elem => elem.classList.remove('max-slider__image--active'))
-  
-  // if (sliderContainer.style.left <= `${-containerWidth}px` ) {
-  //   lastSlide.classList.add('max-slider__image--active')
-  // }
-  // if (sliderContainer.style.left >= `${-containerWidth * (sliderLength + 2)}px` ) {
-  //   firstSlide.classList.add('max-slider__image--active')
-  // }
 
   dotsContainer.querySelectorAll('.max-slider__dot').forEach(elem => {
     elem.dataset.dot === document.querySelector('.max-slider__image--active').dataset.item
