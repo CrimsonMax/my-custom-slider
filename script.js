@@ -5,8 +5,14 @@ let myImages = document.querySelectorAll('.max-slider__image')
 const dotsContainer = document.querySelector('.max-slider__dots-container')
 const leftButton = document.querySelector('.max-slider__arrow-left')
 const rightButton = document.querySelector('.max-slider__arrow-right')
+
 let sliderLength = myImages.length
 let containerWidth
+
+let dragSensitivity = .2
+let timer = 3000
+
+// autoPlay(leftMove)
 
 // Removing certain elements from interface
 // dotsContainer.style.display = 'none'
@@ -41,7 +47,6 @@ const sliderAppearing = () => {
   sliderContainer.classList.remove('max-slider__images-container--transition')
   sliderContainer.style.setProperty('width', `${properWidth}px`)
   sliderContainer.style.setProperty('left', `${-containerWidth * (checkIndex + 2)}px`)
-
 }
 sliderAppearing()
 
@@ -49,33 +54,32 @@ sliderAppearing()
 window.addEventListener('resize', sliderAppearing)
 
 // Creating clones for infinity
+function kamino() {
+  const firstSlide = myImages[0]
+  const afterfirstSlide = myImages[1]
+  const lastSlide = myImages[sliderLength - 1]
+  const beforelastSlide = myImages[sliderLength - 2]
 
-const firstSlide = myImages[0]
-const afterfirstSlide = myImages[1]
-const lastSlide = myImages[sliderLength - 1]
-const beforelastSlide = myImages[sliderLength - 2]
+  const firstSlideClone = firstSlide.cloneNode(true)
+  const secondSlideClone = afterfirstSlide.cloneNode(true)
+  const lastSlideClone = lastSlide.cloneNode(true)
+  const preLastSlideClone = beforelastSlide.cloneNode(true)
 
-const firstSlideClone = firstSlide.cloneNode(true)
-const secondSlideClone = afterfirstSlide.cloneNode(true)
-const lastSlideClone = lastSlide.cloneNode(true)
-const preLastSlideClone = beforelastSlide.cloneNode(true)
+  firstSlideClone.classList.add('clone')
+  secondSlideClone.classList.add('clone')
+  lastSlideClone.classList.add('clone')
+  preLastSlideClone.classList.add('clone')
 
-firstSlideClone.classList.add('clone')
-secondSlideClone.classList.add('clone')
-lastSlideClone.classList.add('clone')
-preLastSlideClone.classList.add('clone')
-
-sliderContainer.appendChild(secondSlideClone)
-sliderContainer.insertBefore(firstSlideClone, secondSlideClone)
-sliderContainer.insertBefore(lastSlideClone, firstSlide)
-sliderContainer.insertBefore(preLastSlideClone, lastSlideClone)
-
-const clones = document.querySelectorAll('.clone')
-console.log(clones)
+  sliderContainer.appendChild(secondSlideClone)
+  sliderContainer.insertBefore(firstSlideClone, secondSlideClone)
+  sliderContainer.insertBefore(lastSlideClone, firstSlide)
+  sliderContainer.insertBefore(preLastSlideClone, lastSlideClone)
+}
+kamino()
 
 // Adding active classes
 function addActive() {
-  
+
   myImages.forEach((elem, index) => {
     sliderContainer.style.left === `${-containerWidth * (index + 2)}px`
       ?
@@ -110,18 +114,16 @@ function checkSliderEnd() {
       :
       sliderContainer.style.left = `${-containerWidth * (sliderLength + 1)}px`
 
-
     addActive()
   }
 
-  if (sliderContainer.offsetLeft < -containerWidth * (sliderLength + 2)) {
+  if (sliderContainer.offsetLeft <= -containerWidth * (sliderLength + 2)) {
     sliderContainer.classList.remove('max-slider__images-container--transition')
-
-    sliderContainer.offsetLeft < -containerWidth * (sliderLength + 1)
+    sliderContainer.offsetLeft < -containerWidth * (sliderLength + 2)
       ?
       sliderContainer.style.left = `${-containerWidth * 3}px`
       :
-      sliderContainer.style.left = `${-containerWidth * 4}px`
+      sliderContainer.style.left = `${-containerWidth * 2}px`
 
     addActive()
   }
@@ -222,10 +224,10 @@ function dragEnd() {
 
   position = finalSliderPosition - initialSliderPosition
 
-  if (position < containerWidth * -.2) {
+  if (position < containerWidth * -dragSensitivity) {
     sliderContainer.style.left = `${(sliderContainer.offsetLeft - position) - containerWidth}px`
     addActive()
-  } else if (position > containerWidth * .2) {
+  } else if (position > containerWidth * dragSensitivity) {
     sliderContainer.style.left = `${(sliderContainer.offsetLeft - position) + containerWidth}px`
     addActive()
   } else {
@@ -238,6 +240,5 @@ function dragEnd() {
 
 // Autoplay function
 function autoPlay(direction) {
-  setInterval(direction, 3000)
+  setInterval(direction, timer)
 }
-// autoPlay(leftMove)
