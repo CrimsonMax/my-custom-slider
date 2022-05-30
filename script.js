@@ -74,6 +74,9 @@ function kamino() {
   sliderContainer.insertBefore(firstSlideClone, secondSlideClone)
   sliderContainer.insertBefore(lastSlideClone, firstSlide)
   sliderContainer.insertBefore(preLastSlideClone, lastSlideClone)
+
+  // sliderContainer.appendChild(firstSlideClone)
+  // sliderContainer.insertBefore(lastSlideClone, firstSlide)
 }
 kamino()
 
