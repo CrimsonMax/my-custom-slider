@@ -1,5 +1,5 @@
 // Setup prime elements
-const mainContainer = document.querySelector('#max-slider-1')
+const mainContainer = document.querySelector('.max-slider')
 let sliderContainer = document.querySelector('.max-slider__images-container')
 let myImages = document.querySelectorAll('.max-slider__image')
 const dotsContainer = document.querySelector('.max-slider__dots-container')
@@ -11,10 +11,9 @@ let containerWidth
 
 let dragSensitivity = .2
 let timer = 3000
-
 // autoPlay(leftMove)
 
-// Removing certain elements from interface
+// Removing certain elements from the interface
 // dotsContainer.style.display = 'none'
 // leftButton.style.display = 'none'
 // rightButton.style.display = 'none'
@@ -43,10 +42,10 @@ const sliderAppearing = () => {
     }
   })
 
-  properWidth = containerWidth * (sliderLength + 4)
+  properWidth = containerWidth * (sliderLength + 4) // plus 4 clones
   sliderContainer.classList.remove('max-slider__images-container--transition')
   sliderContainer.style.setProperty('width', `${properWidth}px`)
-  sliderContainer.style.setProperty('left', `${-containerWidth * (checkIndex + 2)}px`)
+  sliderContainer.style.setProperty('left', `${-containerWidth * (checkIndex + 2)}px`) // move 2 clones to the left
 }
 sliderAppearing()
 
@@ -69,14 +68,11 @@ function kamino() {
   secondSlideClone.classList.add('clone')
   lastSlideClone.classList.add('clone')
   preLastSlideClone.classList.add('clone')
-
+  
   sliderContainer.appendChild(secondSlideClone)
   sliderContainer.insertBefore(firstSlideClone, secondSlideClone)
   sliderContainer.insertBefore(lastSlideClone, firstSlide)
   sliderContainer.insertBefore(preLastSlideClone, lastSlideClone)
-
-  // sliderContainer.appendChild(firstSlideClone)
-  // sliderContainer.insertBefore(lastSlideClone, firstSlide)
 }
 kamino()
 
@@ -92,11 +88,19 @@ function addActive() {
   })
 
   dotsContainer.querySelectorAll('.max-slider__dot').forEach(elem => {
-    elem.dataset.dot === document.querySelector('.max-slider__image--active').dataset.item
+    if (document.querySelectorAll('.max-slider__image--active').length === 3) { // check if there only 2 slides
+      elem.dataset.dot === document.querySelectorAll('.max-slider__image--active')[1].dataset.item
       ?
       elem.classList.add('max-slider__dot--active')
       :
       elem.classList.remove('max-slider__dot--active')
+    } else {
+      elem.dataset.dot === document.querySelector('.max-slider__image--active').dataset.item
+      ?
+      elem.classList.add('max-slider__dot--active')
+      :
+      elem.classList.remove('max-slider__dot--active')
+    }
   })
 }
 
