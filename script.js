@@ -212,7 +212,6 @@ function dragStart(e) {
   }
 }
 function dragMove(e) {
-
   if (e.type === 'touchmove') {
     nextXposition = startXposition - e.touches[0].clientX
     startXposition = e.touches[0].clientX
