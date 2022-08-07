@@ -180,10 +180,11 @@ function activateSlide(e) {
 }
 
 // Drag interface
-let startXposition;
-let nextXposition;
-let initialSliderPosition;
-let finalSliderPosition;
+let startYposition
+let startXposition
+let nextXposition
+let initialSliderPosition
+let finalSliderPosition
 let position = 0
 
 // Drag events
@@ -194,8 +195,6 @@ sliderContainer.addEventListener("touchend", dragEnd);
 
 // Drag actions
 function dragStart(e) {
-  e.preventDefault()
-
   checkSliderEnd()
 
   sliderContainer.classList.remove('max-slider__images-container--transition')
@@ -204,8 +203,10 @@ function dragStart(e) {
 
   if (e.type === 'touchstart') {
     startXposition = e.touches[0].clientX
+    startYposition = e.touches[0].clientY
   } else {
     startXposition = e.clientX
+    startYposition = e.clientY
 
     document.onmouseup = dragEnd
     document.onmousemove = dragMove
@@ -213,11 +214,18 @@ function dragStart(e) {
 }
 function dragMove(e) {
   if (e.type === 'touchmove') {
+    // Check if scroll screen
+    if (Math.round(e.touches[0].clientY) <= Math.round(startYposition) - 10 || Math.round(e.touches[0].clientY) >= Math.round(startYposition) + 10) return
+
     nextXposition = startXposition - e.touches[0].clientX
     startXposition = e.touches[0].clientX
   } else {
     nextXposition = startXposition - e.clientX
     startXposition = e.clientX
+  }
+
+  if (e.cancelable) {
+    e.preventDefault()
   }
 
   sliderContainer.style.left = `${sliderContainer.offsetLeft - nextXposition}px`
